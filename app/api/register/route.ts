@@ -5,12 +5,6 @@ import { NextRequest } from "next/server";
 import { RegisterInput } from "@/app/register/components/RegisterAuthForm";
 import bcrypt from "bcrypt";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
 export type RegisterResponse = {
   message: string;
 };
