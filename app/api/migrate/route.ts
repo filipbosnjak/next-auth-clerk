@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import db from "@/lib/db";
+import { NextRequest } from "next/server";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextRequest) {
   const DB = await db();
   const collections = DB.connection?.collections;
   /*  console.log(

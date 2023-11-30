@@ -1,7 +1,6 @@
 import dbConnect from "@/lib/db";
-import { NextApiRequest, NextApiResponse } from "next";
 import User, { UserModel } from "@/app/(models)/User";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { RegisterInput } from "@/app/register/components/RegisterAuthForm";
 import bcrypt from "bcrypt";
 
@@ -10,7 +9,7 @@ export type RegisterResponse = {
 };
 export async function POST(
   req: NextRequest,
-  res: NextApiResponse<RegisterResponse>,
+  res: NextResponse<RegisterResponse>,
 ) {
   const userInput = (await req.json()) as RegisterInput;
   await dbConnect();
