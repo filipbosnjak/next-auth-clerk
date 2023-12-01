@@ -105,11 +105,9 @@ export function LoginAuthForm({
         onClick={(e) => {
           console.log("github");
           e.preventDefault();
-          if (providers) {
-            signIn("github", {
-              callbackUrl: "/",
-            }).then((r) => console.log(r));
-          }
+          signIn("github", {
+            callbackUrl: "/",
+          }).then((r) => console.log(r));
         }}
       >
         {isLoading ? (
@@ -126,11 +124,9 @@ export function LoginAuthForm({
         onClick={(e) => {
           console.log("google");
           e.preventDefault();
-          if (providers) {
-            signIn("google", {
-              callbackUrl: "/",
-            }).then((r) => console.log(r));
-          }
+          signIn("google", {
+            callbackUrl: "/",
+          }).then((r) => console.log(r));
         }}
       >
         {isLoading ? (
