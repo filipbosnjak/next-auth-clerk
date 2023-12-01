@@ -13,6 +13,8 @@ import { BuiltInProviderType } from "next-auth/providers";
 import { FcGoogle } from "react-icons/fc";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegisterInput } from "@/app/register/components/RegisterAuthForm";
+import SingInWithGithubButton from "@/(components)/client-components/SingInWithGithubButton";
+import SingInWithGoogleButton from "@/(components)/client-components/SingInWithGoogleButton";
 
 export type LoginInput = {
   email: string;
@@ -98,44 +100,8 @@ export function LoginAuthForm({
           </span>
         </div>
       </div>
-      <Button
-        variant="outline"
-        type="button"
-        disabled={isLoading}
-        onClick={(e) => {
-          console.log("github");
-          e.preventDefault();
-          signIn("github", {
-            callbackUrl: "/",
-          }).then((r) => console.log(r));
-        }}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{" "}
-        Github
-      </Button>
-      <Button
-        variant="outline"
-        type="button"
-        disabled={isLoading}
-        onClick={(e) => {
-          console.log("google");
-          e.preventDefault();
-          signIn("google", {
-            callbackUrl: "/",
-          }).then((r) => console.log(r));
-        }}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <FcGoogle size={21} style={{ marginRight: "4px" }} />
-        )}{" "}
-        Google
-      </Button>
+      <SingInWithGithubButton isLoading={isLoading} />
+      <SingInWithGoogleButton isLoading={isLoading} />
     </div>
   );
 }

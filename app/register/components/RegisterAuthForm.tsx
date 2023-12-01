@@ -7,15 +7,18 @@ import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
-import { ClientSafeProvider, LiteralUnion, signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
+import { ClientSafeProvider, LiteralUnion } from "next-auth/react";
 // @ts-ignore
 import { BuiltInProviderType } from "next-auth/providers";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import {
+  SomethingWentWrongToast,
+  SuccessfulRegistrationToast,
+} from "@/(components)/ToastUtils";
+import SingInWithGithubButton from "@/(components)/client-components/SingInWithGithubButton";
 
 export type RegisterInput = {
   email: string;
@@ -50,7 +53,6 @@ export function RegisterAuthForm({
   const onSubmitHF: SubmitHandler<RegisterInput> = async (
     data: RegisterInput,
   ) => {
-    console.log(data);
     fetch("/api/register", {
       method: "POST",
       headers: {
@@ -59,46 +61,16 @@ export function RegisterAuthForm({
       body: JSON.stringify(data),
     }).then(async (r) => {
       if (r.status === 200) {
-        toast({
-          title: "User registration successful!",
-          description: "Yaay! You have successfully registered.",
-          action: (
-            <ToastAction
-              onClick={() => {
-                signIn("credentials", {
-                  callbackUrl: "/",
-                  email: data.email,
-                  password: data.password,
-                });
-                router.push("/");
-              }}
-              altText="Home"
-            >
-              Home
-            </ToastAction>
-          ),
-        });
+        SuccessfulRegistrationToast(router, data);
       } else {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-          action: <ToastAction altText="Try again">Try again</ToastAction>,
-        });
+        SomethingWentWrongToast();
       }
     });
   };
 
+  /*
   console.log(watch("email"));
-
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
+*/
 
   return (
     <>
@@ -158,47 +130,7 @@ export function RegisterAuthForm({
             </span>
           </div>
         </div>
-        <Button
-          variant="outline"
-          type="button"
-          disabled={isLoading}
-          onClick={(e) => {
-            e.preventDefault();
-            if (providers) {
-              signIn("github", {
-                callbackUrl: "/",
-              }).then((r) => console.log(r));
-            }
-          }}
-        >
-          {isLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Icons.gitHub className="mr-2 h-4 w-4" />
-          )}{" "}
-          Github
-        </Button>
-        <Button
-          variant="outline"
-          type="button"
-          disabled={isLoading}
-          onClick={(e) => {
-            e.preventDefault();
-            if (providers) {
-              signIn("google", {
-                callbackUrl: "/",
-              }).then((r) => console.log(r));
-            }
-          }}
-        >
-          {isLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <FcGoogle size={21} style={{ marginRight: "4px" }} />
-          )}{" "}
-          Google
-        </Button>
-        {/*<div>{getValues("email")}</div>*/}
+        <SingInWithGithubButton isLoading={isLoading} />
       </div>
     </>
   );
