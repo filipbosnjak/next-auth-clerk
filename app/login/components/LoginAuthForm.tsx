@@ -103,9 +103,10 @@ export function LoginAuthForm({
         type="button"
         disabled={isLoading}
         onClick={(e) => {
+          console.log("github");
           e.preventDefault();
           if (providers) {
-            signIn(providers["github"].id, {
+            signIn("github", {
               callbackUrl: "/",
             }).then((r) => console.log(r));
           }
@@ -123,9 +124,10 @@ export function LoginAuthForm({
         type="button"
         disabled={isLoading}
         onClick={(e) => {
+          console.log("google");
           e.preventDefault();
           if (providers) {
-            signIn(providers["google"].id, {
+            signIn("google", {
               callbackUrl: "/",
             }).then((r) => console.log(r));
           }
